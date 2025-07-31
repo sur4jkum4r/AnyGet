@@ -61,9 +61,13 @@ def show_banner():
     fig = Figlet(font='slant')
     banner = fig.renderText("AnyGet")
     print(Fore.YELLOW + center_text(banner))
-    creator = f"{LANG['created_by']}: Suraj x AI"
+    creator = f"{LANG['created_by']}: Suraj Prajapati x ChatGPT"
     print(Fore.GREEN + center_text(creator))
-    print(Fore.WHITE + center_text("─" * 50) + "\n")
+    print(Fore.WHITE + center_text("─" * 60))
+    print(Fore.CYAN + center_text("AnyGet: Powerful CLI Downloader for Video, Audio & Files"))
+    print(Fore.CYAN + center_text("Safe 4K default, Ultra Best for power users, Manual for pros"))
+    print(Fore.CYAN + center_text("Open Source • Apache 2.0 • By Suraj for the world ❤️"))
+    print(Fore.WHITE + center_text("─" * 60) + "\n")
 
 # ================================
 # Init log
@@ -166,10 +170,20 @@ def download_content(content_type, url):
 
     try:
         if content_type == "Video":
-            print(Fore.CYAN + "\n🔍 Getting available formats...\n")
-            subprocess.call(['yt-dlp', '-F', url])
-            format_code = input(Fore.YELLOW + "👉 Enter format code you want to download: ").strip()
-            subprocess.call(['yt-dlp', '-f', format_code, '-o', f"{filepath}.%(ext)s", url])
+            print(Fore.CYAN + "\n🌟 Mode: [1] Safe Best (4K max)  [2] Ultra Best  [3] Manual Codes\n")
+            mode = input(Fore.YELLOW + "👉 Select Mode [1/2/3]: ")
+
+            if mode == '1':
+                subprocess.call(['yt-dlp', '-f', 'bestvideo[height<=2160]+bestaudio', '-o', f"{filepath}.%(ext)s", url])
+            elif mode == '2':
+                subprocess.call(['yt-dlp', '-f', 'bestvideo+bestaudio', '-o', f"{filepath}.%(ext)s", url])
+            elif mode == '3':
+                subprocess.call(['yt-dlp', '-F', url])
+                format_code = input(Fore.YELLOW + "👉 Enter format code (e.g., 137+140): ").strip()
+                subprocess.call(['yt-dlp', '-f', format_code, '-o', f"{filepath}.%(ext)s", url])
+            else:
+                print(Fore.RED + "❌ Invalid mode selected.")
+
         else:
             r = requests.get(url, stream=True)
             total = int(r.headers.get('content-length', 0))
@@ -224,7 +238,10 @@ def start_downloader():
         elif choice == '5':
             print(Fore.YELLOW + f"\n{LANG['about']}")
             print(f"   • {LANG['tool_name']}: AnyGet")
-            print(f"   • {LANG['created_by']}: Suraj Prajapati x AI")
+            print(f"   • {LANG['created_by']}: Suraj Prajapati x ChatGPT")
+            print(f"   • Powerful open-source downloader for videos, audios, images & files.")
+            print(f"   • Safe merge with 4K max, Ultra Best for power users, Manual for pro coders.")
+            print(f"   • License: Apache 2.0 — free to use, fork & modify!")
             print(f"   • {LANG['contact']}: sur4jkum4r.org@gmail.com")
             print(f"   • {LANG['location']}: Ahmedabad, India\n")
         elif choice == '6':
